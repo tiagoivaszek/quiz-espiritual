@@ -133,7 +133,7 @@ const questions = [
     "Quase não rezo",
     "Rezo às vezes, mas sem constância",
     "Rezo com frequência e esforço",
-    "Minha oração flui com certa facilidade"
+    "Acontece sem esforço, como se Deus me conduzisse"
     ]
     },
     {
@@ -278,45 +278,85 @@ function finishQuiz(){
 
 function showResult(){
 
-    let maior = Math.max(score.A, score.B, score.C, score.D);
+    // 🔥 NOVA LÓGICA COM PESO
+    const pesos = [3,3,2,2,3,2,1,2,3,2];
+
+    let moradas = { m1:0, m2:0, m3:0, m4:0 };
+
+    respostas.forEach((resposta, i) => {
+
+        let peso = pesos[i];
+        let index = questions[i].a.indexOf(resposta);
+
+        if(index === 0){
+            moradas.m1 += 3 * peso;
+            moradas.m2 += 1 * peso;
+        }
+
+        if(index === 1){
+            moradas.m2 += 3 * peso;
+            moradas.m1 += 1 * peso;
+            moradas.m3 += 1 * peso;
+        }
+
+        if(index === 2){
+            moradas.m3 += 3 * peso;
+            moradas.m2 += 1 * peso;
+        }
+
+        if(index === 3){
+            moradas.m4 += 2 * peso;
+            moradas.m3 += 1 * peso;
+        }
+    });
+
+    let podeSerQuarta =
+        respostas[0] === "Acontece sem esforço, como se Deus me conduzisse" &&
+        respostas[4] === "Sinto que Deus me conduz";
 
     let titulo="", diagnostico="", risco="", frase="";
 
-    if(maior === score.A){
-        titulo="1ª Morada";
+    if(podeSerQuarta && moradas.m4 > moradas.m3){
 
-        diagnostico="Você está no começo do caminho espiritual. Existe um desejo de Deus dentro de você, mas sua vida ainda está muito voltada para o mundo, distrações e falta de constância.";
-
-        risco="Se continuar assim, você pode viver anos sem crescimento espiritual real, sempre começando e parando.";
-
-        frase="Você não está longe de Deus. Você só ainda não entrou dentro de si.";
-    }
-    else if(maior === score.B){
-        titulo="2ª Morada";
-
-        diagnostico="Você já começou a buscar Deus, mas vive uma luta interior constante. Existe desejo de mudança, mas ainda há muitas quedas e instabilidade.";
-
-        risco="O maior risco aqui é o desânimo. Muitas pessoas param exatamente nessa fase e voltam para o ponto inicial.";
-
-        frase="A luta que você sente é sinal de que Deus já está te chamando.";
-    }
-    else if(maior === score.C){
-        titulo="3ª Morada";
-
-        diagnostico="Você já tem uma vida espiritual mais organizada. Existe disciplina, constância e um desejo real de viver corretamente.";
-
-        risco="O perigo agora é achar que já está bem e parar de crescer, confiando mais em si mesmo do que em Deus.";
-
-        frase="Você já avançou muito… mas ainda não chegou no centro.";
-    }
-    else{
         titulo="4ª Morada";
 
-        diagnostico="Você entrou em uma fase onde Deus começa a agir de forma mais direta na sua alma. A vida espiritual deixa de ser apenas esforço humano e passa a ser mais conduzida pela graça.";
+        diagnostico="Você entrou em uma fase onde Deus começa a agir na sua alma de forma mais direta. A oração já não depende principalmente do seu esforço, mas da ação da graça que recolhe e atrai você interiormente.";
 
-        risco="O risco aqui é não corresponder às graças recebidas ou querer controlar aquilo que Deus quer conduzir.";
+        risco="O maior risco aqui é tentar controlar a oração como antes ou não compreender essa nova ação de Deus.";
 
-        frase="Agora não é mais você que conduz o caminho. É Deus que começa a te conduzir.";
+        frase="Deus começa a agir em você de dentro para fora.";
+    }
+    else{
+
+        let max = Math.max(moradas.m1, moradas.m2, moradas.m3);
+
+        if(max === moradas.m1){
+            titulo="1ª Morada";
+
+            diagnostico="Você está no começo do caminho espiritual. Existe um desejo de Deus dentro de você, mas sua vida ainda está muito voltada para o mundo, distrações e falta de constância.";
+
+            risco="Se continuar assim, você pode viver anos sem crescimento espiritual real, sempre começando e parando.";
+
+            frase="Você não está longe de Deus. Você só ainda não entrou dentro de si.";
+        }
+        else if(max === moradas.m2){
+            titulo="2ª Morada";
+
+            diagnostico="Você já começou a buscar Deus, mas vive uma luta interior constante. Existe desejo de mudança, mas ainda há muitas quedas e instabilidade.";
+
+            risco="O maior risco aqui é o desânimo. Muitas pessoas param exatamente nessa fase e voltam para o ponto inicial.";
+
+            frase="A luta que você sente é sinal de que Deus já está te chamando.";
+        }
+        else{
+            titulo="3ª Morada";
+
+            diagnostico="Você já tem uma vida espiritual mais organizada. Existe disciplina, constância e um desejo real de viver corretamente.";
+
+            risco="O perigo agora é achar que já está bem e parar de crescer, confiando mais em si mesmo do que em Deus.";
+
+            frase="Você já avançou muito… mas ainda não chegou no centro.";
+        }
     }
 
     const nome = document.getElementById("name").value;
