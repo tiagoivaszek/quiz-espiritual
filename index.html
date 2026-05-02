@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Espiritual</title>
+
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0f172a;
+    color: white;
+    margin: 0;
+}
+
+.container {
+    max-width: 420px;
+    margin: 20px auto;
+    padding: 25px;
+    background: #020617;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+h1 { font-size: 22px; }
+h2 { font-size: 18px; }
+
+button {
+    width: 100%;
+    padding: 16px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 12px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: none;
+}
+
+.hidden { display: none; }
+
+.progress {
+    height: 6px;
+    background: #1e293b;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    height: 6px;
+    background: #22c55e;
+    width: 0%;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="start">
+    <h1>Descubra em qual morada espiritual você está</h1>
+    <p>Leva menos de 1 minuto</p>
+    <button onclick="startQuiz()">Começar</button>
+</div>
+
+<div id="quiz" class="hidden">
+    <div class="progress">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <h2 id="question"></h2>
+    <div id="answers"></div>
+</div>
+
+<div id="loading" class="hidden">
+    <h2>Analisando suas respostas...</h2>
+</div>
+
+<div id="capture" class="hidden">
+    <h2>Seu resultado está pronto 👇</h2>
+
+    <input type="text" id="name" placeholder="Seu nome">
+    <input type="text" id="whatsapp" placeholder="Seu WhatsApp">
+
+    <button onclick="showResult()">Ver resultado</button>
+</div>
+
+<div id="result" class="hidden">
+    <h2 id="resultTitle"></h2>
+
+    <p><strong>🧭 Diagnóstico</strong></p>
+    <p id="resultDiagnostico"></p>
+
+    <p><strong>⚠️ Risco</strong></p>
+    <p id="resultRisco"></p>
+
+    <p><strong>💬</strong></p>
+    <p id="resultFrase"></p>
+
+    <p style="margin-top:15px;">
+        O caminho não aparece aqui porque ele é personalizado.  
+        Me chama no WhatsApp que eu te explico 👇
+    </p>
+
+    <button id="whatsButton">Quero meu caminho agora</button>
+</div>
+
+<div id="thankyou" class="hidden">
+    <h2>🙏 Perfeito!</h2>
+    <p>Agora me chama no WhatsApp 👇</p>
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+{ q: "Como está sua oração?", a: ["Quase não rezo", "Rezo às vezes", "Rezo com frequência", "Rezo com profundidade"] },
+{ q: "Sobre o pecado:", a: ["Caio e não luto", "Luto mas caio", "Evito os piores", "Tenho domínio"] },
+{ q: "Hoje você está:", a: ["Muito no mundo", "Em luta", "Mais organizado", "Buscando Deus"] },
+{ q: "Quando reza:", a: ["Nem começo", "Me distraio", "Permaneço", "Sinto Deus"] },
+{ q: "Autoconhecimento:", a: ["Não penso", "Vejo erros", "Identifico padrões", "Busco mudar"] },
+{ q: "O mundo te puxa:", a: ["Muito", "Bastante", "Pouco", "Quase nada"] },
+{ q: "Quando cai:", a: ["Nem ligo", "Repito", "Luto", "Levanto rápido"] },
+{ q: "Decisão de mudar:", a: ["Nenhuma", "Dividido", "Já comecei", "Sou fiel"] },
+{ q: "Relação com Deus:", a: ["Distante", "Aproximando", "Relacionamento", "Intimidade"] },
+{ q: "Hoje você sente:", a: ["Confusão", "Luta", "Estável", "Busca"] }
+];
+
+let current = 0;
+let score = {A:0, B:0, C:0, D:0};
+
+function startQuiz() {
+    document.getElementById("start").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+    showQuestion();
+}
+
+function showQuestion() {
+
+    let percent = (current / questions.length) * 100;
+    document.getElementById("progressBar").style.width = percent + "%";
+
+    let q = questions[current];
+    document.getElementById("question").innerText = q.q;
+
+    let answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+
+    q.a.forEach((answer, index) => {
+        let btn = document.createElement("button");
+        btn.innerText = answer;
+
+        btn.onclick = () => {
+            if(index === 0) score.A++;
+            if(index === 1) score.B++;
+            if(index === 2) score.C++;
+            if(index === 3) score.D++;
+
+            current++;
+
+            if(current < questions.length){
+                showQuestion();
+            } else {
+                finishQuiz();
+            }
+        };
+
+        answersDiv.appendChild(btn);
+    });
+}
+
+function finishQuiz() {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("loading").classList.remove("hidden");
+
+    setTimeout(() => {
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("capture").classList.remove("hidden");
+    }, 1500);
+}
+
+function showResult() {
+
+    let titulo = "";
+    let diagnostico = "";
+    let risco = "";
+    let frase = "";
+
+    if(score.A >= score.B && score.A >= score.C){
+        titulo = "1ª Morada";
+
+        diagnostico = "Você está no início do caminho espiritual. Existe um desejo de Deus dentro de você, mas sua vida ainda está muito conectada ao mundo, distrações e falta de constância.";
+
+        risco = "Se continuar assim, você pode passar anos sem crescimento real, sempre começando e parando.";
+
+        frase = "Você não está longe de Deus. Você só ainda não entrou dentro de si.";
+    }
+    else if(score.B >= score.A && score.B >= score.C){
+        titulo = "2ª Morada";
+
+        diagnostico = "Você já começou a caminhar com Deus. Existe luta, esforço e desejo de mudança, mas ainda há muitas quedas e instabilidade.";
+
+        risco = "O maior risco aqui é o desânimo e a desistência no meio do caminho.";
+
+        frase = "A luta que você sente é sinal de que Deus já está te chamando.";
+    }
+    else {
+        titulo = "3ª Morada";
+
+        diagnostico = "Você já tem uma vida espiritual mais estruturada. Existe disciplina, organização e busca por viver corretamente.";
+
+        risco = "O perigo agora é achar que já está bem e parar de crescer, sem buscar mais profundidade.";
+
+        frase = "Você já avançou muito… mas ainda não chegou no centro.";
+    }
+
+    const nome = document.getElementById("name").value;
+    const whatsapp = document.getElementById("whatsapp").value;
+
+    if(!nome || !whatsapp){
+        alert("Preencha os dados");
+        return;
+    }
+
+    fetch("https://script.google.com/macros/s/AKfycbzZ1vVwX4v3MSloF29Jfs-k1kSLrgWdG4piQeeYhMfC88YBWELwbKsEQszvHPQEL-zv/exec", {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({ nome, whatsapp, resultado: titulo })
+    });
+
+    let mensagem = encodeURIComponent(`Estou na ${titulo} e quero meu caminho`);
+    let link = `https://wa.me/5543999000676?text=${mensagem}`;
+
+    document.getElementById("capture").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    document.getElementById("resultTitle").innerText = titulo;
+    document.getElementById("resultDiagnostico").innerText = diagnostico;
+    document.getElementById("resultRisco").innerText = risco;
+    document.getElementById("resultFrase").innerText = frase;
+
+    document.getElementById("whatsButton").onclick = function() {
+        window.open(link, "_blank");
+        document.getElementById("result").classList.add("hidden");
+        document.getElementById("thankyou").classList.remove("hidden");
+    };
+}
+
+</script>
+
+</body>
+</html>
