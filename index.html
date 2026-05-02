@@ -6,9 +6,7 @@
 <title>Quiz Espiritual</title>
 
 <style>
-* {
-    box-sizing: border-box; /* 🔥 resolve problema de overflow */
-}
+* { box-sizing: border-box; }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -28,9 +26,6 @@ body {
     box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
-h1 { font-size: 22px; }
-h2 { font-size: 18px; }
-
 button {
     width: 100%;
     padding: 16px;
@@ -41,11 +36,6 @@ button {
     color: white;
     font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
-}
-
-button:active {
-    transform: scale(0.98);
 }
 
 input {
@@ -69,7 +59,6 @@ input {
     height: 6px;
     background: #22c55e;
     width: 0%;
-    border-radius: 10px;
 }
 </style>
 </head>
@@ -136,96 +125,96 @@ input {
 <script>
 
 const questions = [
-  {
-    q: "1. Como está sua vida de oração hoje?",
-    a: [
-      "Quase não rezo",
-      "Rezo às vezes, mas sem constância",
-      "Rezo com frequência, mas me distraio muito",
-      "Tenho constância e busco profundidade"
-    ]
-  },
-  {
-    q: "2. Sua relação com o pecado:",
-    a: [
-      "Vivo caindo e nem sempre luto",
-      "Tento lutar, mas caio com frequência",
-      "Evito pecados graves, mas ainda tenho fraquezas",
-      "Tenho domínio maior sobre mim"
-    ]
-  },
-  {
-    q: "3. O que mais te define hoje?",
-    a: [
-      "Muito apego ao mundo",
-      "Luta interior constante",
-      "Vida mais organizada espiritualmente",
-      "Desejo profundo de Deus"
-    ]
-  },
-  {
-    q: "4. Quando você tenta rezar:",
-    a: [
-      "Nem consigo começar direito",
-      "Começo, mas logo me distraio",
-      "Permaneço, mesmo com distrações",
-      "Sinto presença de Deus com mais clareza"
-    ]
-  },
-  {
-    q: "5. Sobre autoconhecimento:",
-    a: [
-      "Não penso muito sobre mim",
-      "Começo a perceber meus erros",
-      "Já identifico padrões em mim",
-      "Me conheço e busco mudar com consciência"
-    ]
-  },
-  {
-    q: "6. Sobre o mundo (prazeres, redes, etc):",
-    a: [
-      "Me domina facilmente",
-      "Me atrai bastante",
-      "Já consigo resistir melhor",
-      "Tem pouca força sobre mim"
-    ]
-  },
-  {
-    q: "7. Quando você cai em pecado:",
-    a: [
-      "Nem sempre me arrependo",
-      "Me arrependo, mas repito",
-      "Luto pra não repetir",
-      "Caio pouco e me levanto rápido"
-    ]
-  },
-  {
-    q: "8. Sua decisão de mudar:",
-    a: [
-      "Ainda não decidi de verdade",
-      "Quero mudar, mas estou dividido",
-      "Já tomei decisões concretas",
-      "Vivo tentando ser fiel diariamente"
-    ]
-  },
-  {
-    q: "9. Sua relação com Deus:",
-    a: [
-      "Distante",
-      "Começando a se aproximar",
-      "Já existe relacionamento",
-      "Busco intimidade"
-    ]
-  },
-  {
-    q: "10. O que você mais sente hoje?",
-    a: [
-      "Confusão",
-      "Luta",
-      "Estabilidade",
-      "Busca profunda"
-    ]
-  }
+{
+q: "Como está sua vida de oração?",
+a: [
+"Quase não rezo",
+"Rezo às vezes, mas sem constância",
+"Rezo com frequência e esforço",
+"Minha oração flui com certa facilidade"
+]
+},
+{
+q: "Sua relação com o pecado:",
+a: [
+"Vivo caindo e nem sempre luto",
+"Tento lutar, mas caio com frequência",
+"Evito pecados graves, mas ainda caio",
+"Tenho maior domínio e vigilância"
+]
+},
+{
+q: "Quando você cai:",
+a: [
+"Nem sempre me arrependo",
+"Me arrependo, mas continuo repetindo",
+"Luto para não repetir",
+"Caio pouco e me levanto rápido"
+]
+},
+{
+q: "Sobre o mundo e distrações:",
+a: [
+"Me dominam facilmente",
+"Me atraem bastante",
+"Consigo resistir na maioria das vezes",
+"Têm pouca força sobre mim"
+]
+},
+{
+q: "Na sua oração, você sente que:",
+a: [
+"Depende totalmente de mim começar",
+"Preciso me forçar muito para rezar",
+"Consigo manter com esforço",
+"Sinto que Deus me conduz"
+]
+},
+{
+q: "Sua vida espiritual hoje:",
+a: [
+"Confusa e desorganizada",
+"Instável, com altos e baixos",
+"Organizada e disciplinada",
+"Profunda e interior"
+]
+},
+{
+q: "Autoconhecimento:",
+a: [
+"Quase não reflito sobre mim",
+"Começo a perceber meus erros",
+"Já identifico padrões",
+"Me conheço e busco corrigir"
+]
+},
+{
+q: "Sua decisão de mudar:",
+a: [
+"Ainda não decidi de verdade",
+"Quero mudar, mas estou dividido",
+"Já tomei decisões concretas",
+"Busco fidelidade diária"
+]
+},
+{
+q: "Sua relação com Deus:",
+a: [
+"Distante",
+"Começando a se aproximar",
+"Já existe relacionamento",
+"Busco intimidade profunda"
+]
+},
+{
+q: "O que mais define seu momento atual:",
+a: [
+"Apego ao mundo",
+"Luta constante",
+"Estabilidade espiritual",
+"Busca profunda por Deus"
+]
+}
 ];
 
 let current = 0;
@@ -283,28 +272,36 @@ function finishQuiz() {
 
 function showResult() {
 
+    let maior = Math.max(score.A, score.B, score.C, score.D);
+
     let titulo = "";
     let diagnostico = "";
     let risco = "";
     let frase = "";
 
-    if(score.A >= score.B && score.A >= score.C){
+    if(maior === score.A){
         titulo = "1ª Morada";
-        diagnostico = "Você está no início do caminho espiritual. Existe um desejo de Deus dentro de você, mas sua vida ainda está muito conectada ao mundo, distrações e falta de constância.";
-        risco = "Se continuar assim, você pode passar anos sem crescimento real, sempre começando e parando.";
+        diagnostico = "Você ainda está muito ligado ao mundo e com pouca vida interior.";
+        risco = "Pode permanecer anos sem crescer espiritualmente.";
         frase = "Você não está longe de Deus. Você só ainda não entrou dentro de si.";
     }
-    else if(score.B >= score.A && score.B >= score.C){
+    else if(maior === score.B){
         titulo = "2ª Morada";
-        diagnostico = "Você já começou a caminhar com Deus. Existe luta, esforço e desejo de mudança, mas ainda há muitas quedas e instabilidade.";
-        risco = "O maior risco aqui é o desânimo e a desistência no meio do caminho.";
-        frase = "A luta que você sente é sinal de que Deus já está te chamando.";
+        diagnostico = "Você já começou a buscar Deus, mas vive uma luta constante.";
+        risco = "Desânimo e desistência.";
+        frase = "A luta é sinal de que Deus já está te chamando.";
+    }
+    else if(maior === score.C){
+        titulo = "3ª Morada";
+        diagnostico = "Você tem vida espiritual organizada e disciplinada.";
+        risco = "Achar que já está bem e parar de crescer.";
+        frase = "Você já avançou muito… mas ainda não chegou no centro.";
     }
     else {
-        titulo = "3ª Morada";
-        diagnostico = "Você já tem uma vida espiritual mais estruturada. Existe disciplina, organização e busca por viver corretamente.";
-        risco = "O perigo agora é achar que já está bem e parar de crescer, sem buscar mais profundidade.";
-        frase = "Você já avançou muito… mas ainda não chegou no centro.";
+        titulo = "4ª Morada";
+        diagnostico = "Você entrou em uma fase mais profunda, onde Deus começa a agir mais diretamente na sua alma.";
+        risco = "Tentar controlar tudo e não corresponder à ação de Deus.";
+        frase = "Agora não é mais só você buscando Deus… é Deus te puxando.";
     }
 
     const nome = document.getElementById("name").value;
