@@ -109,8 +109,6 @@ input, textarea {
     <input type="text" id="name" placeholder="Seu nome">
     <input type="text" id="whatsapp" placeholder="Ex: (43) 99900-0067">
 
-    <textarea id="dificuldade" placeholder="Pensando na sua vida espiritual, qual sua maior dificuldade hoje? (opcional)"></textarea>
-
     <button onclick="showResult()">Ver resultado</button>
 </div>
 
@@ -378,7 +376,7 @@ function showResult(){
 
     const nome = document.getElementById("name").value;
     const whatsapp = document.getElementById("whatsapp").value;
-    const dificuldade = document.getElementById("dificuldade").value;
+    const dificuldade = "Disabled";
 
     if(!nome || !whatsapp){
         alert("Preencha os dados");
