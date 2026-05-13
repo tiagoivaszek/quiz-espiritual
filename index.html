@@ -107,7 +107,13 @@ input, textarea {
     <h2>Seu resultado está pronto 👇</h2>
 
     <input type="text" id="name" placeholder="Seu nome">
-    <input type="text" id="whatsapp" placeholder="Ex: (43) 99900-0067">
+    <input 
+    type="tel" 
+    id="whatsapp" 
+    placeholder="Ex: (43) 99900-0067"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    />
 
     <button onclick="showResult()">Ver resultado</button>
 </div>
